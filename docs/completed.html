@@ -112,7 +112,7 @@
     function copyToClipboard() {
       const keyText = document.getElementById('key').textContent;
       navigator.clipboard.writeText(keyText)
-        .then(() => alert('Key copied to clipboard'));
+        .then(() => alert('Key copied to clipboard'))
         .catch(err => alert('Failed to copy key'));
     }
   </script>
