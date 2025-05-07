@@ -108,12 +108,15 @@
         document.getElementById('key').textContent = 'Error loading key';
         console.error(error);
       });
-
     function copyToClipboard() {
       const keyText = document.getElementById('key').textContent;
       navigator.clipboard.writeText(keyText)
-        .then(() => alert('Key copied to clipboard!'));
-        .catch(err => alert('Failed to copy key'));
+        .then(() => {
+          console.log('Key copied to clipboard.');
+        })
+        .catch(err => {
+          console.error('Failed to copy key:', err);
+        });
     }
   </script>
 </body>
