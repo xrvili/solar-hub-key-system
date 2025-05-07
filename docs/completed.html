@@ -20,6 +20,14 @@
       text-align: center;
     }
 
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 60px;
+      height: auto;
+    }
+
     h1 {
       font-size: 5em;
       font-weight: 500;
@@ -35,6 +43,16 @@
       margin: 0.1em 0 0.2em;
       color: #aaa;
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.05);
+    }
+
+    a, a:visited {
+      color: #fff;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      color: rgba(29,139,255,1);
     }
 
     button {
@@ -74,31 +92,6 @@
   </div>
 
   <script>
-    function encode(data) {
-      data = data.replace(/\n/g, '').replace(/\r/g, '');
-      const b64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
-      let binary = '';
-      for (let i = 0; i < data.length; i++) {
-        const byte = data.charCodeAt(i);
-        for (let j = 7; j >= 0; j--) {
-          binary += ((byte >> j) & 1).toString();
-        }
-      }
-
-      binary += '0000';
-
-      let encoded = '';
-      for (let i = 0; i < binary.length; i += 6) {
-        const chunk = binary.slice(i, i + 6);
-        if (chunk.length < 6) continue;
-        const index = parseInt(chunk, 2);
-        encoded += b64chars[index];
-      }
-
-      return encoded;
-    }
-
     const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/xurel7/apollo/refs/heads/main/Key-System/Key.txt';
 
     fetch(GITHUB_RAW_URL)
@@ -109,8 +102,7 @@
         return response.text();
       })
       .then(data => {
-        const encodedKey = encode(data.trim());
-        document.getElementById('key').textContent = encodedKey;  // Display the encoded key
+        document.getElementById('key').textContent = btoa(data.trim());
       })
       .catch(error => {
         document.getElementById('key').textContent = 'Error loading key';
@@ -120,12 +112,8 @@
     function copyToClipboard() {
       const keyText = document.getElementById('key').textContent;
       navigator.clipboard.writeText(keyText)
-        .then(() => {
-          console.log('Key copied to clipboard.');
-        })
-        .catch(err => {
-          console.error('Failed to copy key:', err);
-        });
+        .then(() => alert('Key copied to clipboard'));
+        .catch(err => alert('Failed to copy key'));
     }
   </script>
 </body>
